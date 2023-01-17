@@ -50,7 +50,8 @@ class Post(models.Model):
     image = models.ImageField(
         verbose_name='Картинка',
         upload_to='posts/',
-        blank=True
+        blank=True,
+        null=True
     )
 
     class Meta:
@@ -109,6 +110,12 @@ class Follow(models.Model):
     class Meta:
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
+        constraints = (
+            models.UniqueConstraint(
+                fields=['user', 'author'],
+                name='unique_following'
+            ),
+        )
 
     def __str__(self) -> str:
         return f'{self.user.username} следит за {self.author.username}'
