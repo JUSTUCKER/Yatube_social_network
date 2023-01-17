@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from core.models import CreatedModel
+
 User = get_user_model()
 
 
@@ -23,14 +25,10 @@ class Group(models.Model):
         return self.title
 
 
-class Post(models.Model):
+class Post(CreatedModel):
     text = models.TextField(
         verbose_name='Текст поста',
         help_text='Введите текст поста'
-    )
-    pub_date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата публикации'
     )
     author = models.ForeignKey(
         User,
@@ -55,7 +53,7 @@ class Post(models.Model):
     )
 
     class Meta:
-        ordering = ['-pub_date']
+        ordering = ['-created']
         verbose_name = 'Пост'
         verbose_name_plural = 'Посты'
 
@@ -63,7 +61,7 @@ class Post(models.Model):
         return self.text[:15]
 
 
-class Comment(models.Model):
+class Comment(CreatedModel):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
@@ -78,10 +76,6 @@ class Comment(models.Model):
     )
     text = models.TextField(
         verbose_name='Текст комментария',
-    )
-    created = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата публикации',
     )
 
     class Meta:
