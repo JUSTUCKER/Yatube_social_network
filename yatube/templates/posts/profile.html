@@ -28,7 +28,7 @@
       </div>
     {% endif %}
     {% for post in page_obj %}
-      {% include 'includes/post_card.html' with link=True profile=True %}
+      {% include 'includes/post_card.html' with profile_page=True %}
       {% if not forloop.last %}
         <hr>
       {% endif %}

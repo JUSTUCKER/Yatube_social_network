@@ -13,7 +13,7 @@
     {% load cache %}
     {% cache 20 index_page page_obj.number %}
       {% for post in page_obj %}
-        {% include 'includes/post_card.html' with link=True %}
+        {% include 'includes/post_card.html' %}
         {% if not forloop.last %}
           <hr>
         {% endif %}

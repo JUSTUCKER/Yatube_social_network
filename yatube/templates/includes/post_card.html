@@ -1,7 +1,7 @@
 {% load thumbnail %}
 <article>
   <ul>
-    {% if not profile %}
+    {% if not profile_page %}
       <li>
         Автор: {{ post.author.get_full_name }}
         <a 
@@ -21,7 +21,7 @@
   </p>
   <a href="{% url 'posts:post_detail' post.pk %}">подробная информация</a>
   <br>
-  {% if link and post.group %}
+  {% if not group_page and post.group %}
     <a
       href="{% url 'posts:group_list' post.group.slug %}"
     >все записи группы</a>
