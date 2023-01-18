@@ -14,28 +14,22 @@ class PostURLTest(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        # Создание пользователей
         cls.user = User.objects.create_user(username='auth')
         cls.second_user = User.objects.create_user(username='non_author')
-        # Создание группы
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='test_slug',
             description='Тестовое описание',
         )
-        # Создание поста
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый пост',
         )
 
     def setUp(self):
-        # Создание гостевого клиента в БД
         self.guest_client = Client()
-        # Создание авторизированного клиента (автора поста) в БД
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
-        # Создание авторизированного клиента (не автора поста) в БД
         self.non_author_client = Client()
         self.non_author_client.force_login(self.second_user)
 
@@ -69,6 +63,7 @@ class PostURLTest(TestCase):
             reverse(
                 'posts:post_edit', kwargs={'post_id': PostURLTest.post.id}
             ): HTTPStatus.OK,
+            reverse('posts:follow_index'): HTTPStatus.OK,
         }
         for value, expected in field_verboses.items():
             with self.subTest(value=value):
@@ -79,15 +74,21 @@ class PostURLTest(TestCase):
         """Страницы перенаправляющие анонимного пользователя."""
         field_verboses = {
             reverse('posts:post_create'): '%s?%s' % (
-                reverse('users:login'), urlencode(
-                    {"next": reverse('posts:post_create')}
-                )
+                reverse('users:login'),
+                urlencode({"next": reverse('posts:post_create')})
+            ),
+            reverse('posts:follow_index'): '%s?%s' % (
+                reverse('users:login'),
+                urlencode({"next": reverse('posts:follow_index')})
             ),
             reverse(
                 'posts:post_edit', kwargs={'post_id': PostURLTest.post.id}
-            ): '%s?%s' % (reverse('users:login'), urlencode({"next": reverse(
-                'posts:post_edit', kwargs={'post_id': PostURLTest.post.id}
-            )})),
+            ): '%s?%s' % (
+                reverse('users:login'),
+                urlencode({"next": reverse(
+                    'posts:post_edit', kwargs={'post_id': PostURLTest.post.id}
+                )})
+            ),
         }
         for value, expected in field_verboses.items():
             with self.subTest(value=value):
@@ -125,13 +126,14 @@ class PostURLTest(TestCase):
                 self.assertTemplateUsed(response, expected)
 
     def test_auth_urls_uses_correct_template(self):
-        """URL-адреса создания и редактирования поста
+        """URL-адреса доступные авторизированным пользователям
             используют соответствующие шаблоны."""
         field_verboses = {
             reverse('posts:post_create'): 'posts/create_post.html',
             reverse(
                 'posts:post_edit', kwargs={'post_id': PostURLTest.post.id}
             ): 'posts/create_post.html',
+            reverse('posts:follow_index'): 'posts/follow.html',
         }
         for value, expected in field_verboses.items():
             with self.subTest(value=value):

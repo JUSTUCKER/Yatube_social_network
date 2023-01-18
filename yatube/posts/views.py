@@ -98,7 +98,10 @@ def post_edit(request, post_id):
             post.save()
             return redirect('posts:post_detail', post.pk)
         return render(request, template, {'form': form})
-    form = PostForm(instance=post)
+    form = PostForm(
+        files=request.FILES or None,
+        instance=post
+    )
     context = {
         'is_edit': True,
         'form': form,

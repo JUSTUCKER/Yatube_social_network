@@ -11,15 +11,12 @@ class PostModelTest(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        # Создание пользователя
         cls.user = User.objects.create_user(username='auth')
-        # Создание группы
         cls.group = Group.objects.create(
             title='Тестовая группа',
             slug='Тестовый слаг',
             description='Тестовое описание',
         )
-        # Создание поста
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый пост' * settings.SYMBOL_MULTIPLIER,
@@ -92,14 +89,11 @@ class CommentModelTest(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        # Создание пользователя
         cls.user = User.objects.create_user(username='auth')
-        # Создание поста
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовый пост',
         )
-        # Создание комментария
         cls.comment = Comment.objects.create(
             author=cls.user,
             text='Комментарий' * settings.SYMBOL_MULTIPLIER,
@@ -131,11 +125,8 @@ class FollowModelTest(TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
-        # Создание автора
         cls.author_user = User.objects.create_user(username='author')
-        # Создание подписчика
         cls.follower_user = User.objects.create_user(username='follower')
-        # Создание подписки
         cls.follow = Follow.objects.create(
             user=cls.follower_user,
             author=cls.author_user,
