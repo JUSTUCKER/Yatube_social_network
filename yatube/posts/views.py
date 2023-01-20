@@ -54,7 +54,7 @@ def profile(request, username):
 def post_detail(request, post_id):
     template = 'posts/post_detail.html'
     post = get_object_or_404(Post, pk=post_id)
-    form = CommentForm(request.GET)
+    form = CommentForm()
     comments = post.comments.select_related('author', 'post')
     context = {
         'post': post,

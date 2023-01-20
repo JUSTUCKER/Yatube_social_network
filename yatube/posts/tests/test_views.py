@@ -156,6 +156,9 @@ class PostPagesTest(TestCase):
                 'posts:post_detail', kwargs={'post_id': PostPagesTest.post.id}
             )
         )
+        form_fields = {
+            'text': forms.fields.CharField,
+        }
         self.assertIn('post', response.context)
         self.post_fields_check(response.context.get('post'))
         self.assertIn('comments', response.context)
@@ -163,6 +166,11 @@ class PostPagesTest(TestCase):
             response.context['comments'][0],
             PostPagesTest.comment
         )
+        self.assertIn('form', response.context)
+        for value, expected in form_fields.items():
+            with self.subTest(value=value):
+                form_field = (response.context.get('form').fields.get(value))
+            self.assertIsInstance(form_field, expected)
 
     def test_post_create_and_edit_show_correct_context(self):
         """Шаблоны post_create и post_edit сформированы

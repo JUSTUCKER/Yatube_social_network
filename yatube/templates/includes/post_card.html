@@ -1,7 +1,7 @@
 {% load thumbnail %}
 <article>
   <ul>
-    {% if not profile_page %}
+    {% if not not_show_profile_page %}
       <li>
         Автор: {{ post.author.get_full_name }}
         <a 
