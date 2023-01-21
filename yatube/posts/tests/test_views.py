@@ -170,7 +170,7 @@ class PostPagesTest(TestCase):
         for value, expected in form_fields.items():
             with self.subTest(value=value):
                 form_field = (response.context.get('form').fields.get(value))
-            self.assertIsInstance(form_field, expected)
+                self.assertIsInstance(form_field, expected)
 
     def test_post_create_and_edit_show_correct_context(self):
         """Шаблоны post_create и post_edit сформированы
