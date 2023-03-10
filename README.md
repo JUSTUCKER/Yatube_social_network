@@ -91,4 +91,4 @@
 
 ## Авторы
 
-- [@JUSTUCKER](https://github.com/JUSTUCKER) and [@yandex-praktikum](https://github.com/yandex-praktikum)
+- [@JUSTUCKER](https://github.com/JUSTUCKER) при помощи [@yandex-praktikum](https://github.com/yandex-praktikum)
