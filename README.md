@@ -89,6 +89,6 @@
    http://127.0.0.1:8000
    ```
 
-## Автор
+## Авторы
 
-- [@JUSTUCKER](https://github.com/JUSTUCKER)
+- [@JUSTUCKER](https://github.com/JUSTUCKER) and [@yandex-praktikum](https://github.com/yandex-praktikum)
